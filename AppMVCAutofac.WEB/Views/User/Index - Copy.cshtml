@@ -1,0 +1,75 @@
+﻿@*@using AppMVCAutofac.WEB.Helpers;*@
+@model IEnumerable<AppMVCAutofac.Core.Model.User>
+
+@{
+    ViewBag.Title = "Сотрудники";
+}
+<script>
+    function checkFunction(obj) {
+        var td1 = "td1_" + obj;
+        var td2 = "td2_" + obj;
+        alert(td1 + td2);
+        var checkBox = document.getElementById("Employed");
+        td1 = document.getElementById("td1_" + obj);
+        td2 = document.getElementById("td2_" + obj);
+        if (checkBox.checked == true) {
+            td1.style.display = "block";
+            td2.style.display = "block";
+        } else {
+            td1.style.display = "none";
+            td2.style.display = "none";
+        }
+    }
+</script>
+
+<h2>Сотрудники</h2>
+
+<p>
+    @Html.ActionLink("Create", "InsertUser")
+</p>
+
+@using (Ajax.BeginForm("Index", "User", new AjaxOptions { UpdateTargetId = "results" }))
+{
+
+    <table class="table">
+        <tr>
+           <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th></th>
+        </tr>
+        @{int i = 0;}
+        @foreach (var item in Model)
+        {
+            int inx = i++;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    <p id="td1_@inx"> @Html.DisplayFor(modelItem => item.Age) </p>
+                </td>
+                <td>
+                    <p id="td2_@inx"> @Html.DisplayFor(modelItem => item.StartDate)</p>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

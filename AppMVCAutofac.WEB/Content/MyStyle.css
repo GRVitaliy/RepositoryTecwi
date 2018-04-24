@@ -1,0 +1,40 @@
+﻿    .webgrid-table
+    {
+        font-family:"Trebuchet MS",Arial,'Times New Roman',sans-serif;
+        font-size: 14px;
+        width:100%;
+        display:table;
+        border-collapse:separate;
+        border:solid 1px #808080;
+        background-color:white;
+    }
+    .webgrid-table td, th 
+    {
+        border: 1px solid #808080;
+        padding: 3px 7px 2px;
+    }
+    .webgrid-header
+    {
+        background-color:#FF7F50;
+        color:#FFFFFF;
+        padding-bottom: 4px;
+        padding-top:5px;
+        text-align:left;
+    }
+    .webgrid-footer
+    {
+     }
+    .webgrid-row-style
+    {
+        background-color:#dcfaff;
+        padding: 3px 7px 2px;
+    }
+    .webgrid-alternating-row
+    {
+        background-color:#dcfaff;
+        padding: 3px 7px 2px;
+    }
+   .popup-text {
+    color: red;
+    }
+

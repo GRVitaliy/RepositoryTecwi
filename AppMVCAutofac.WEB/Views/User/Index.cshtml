@@ -1,0 +1,117 @@
+﻿@using AppMVCAutofac.Core.Model;
+@model List<AppMVCAutofac.Core.Model.User>
+
+@{
+    ViewBag.Title = "Сотрудники";
+   
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+<link href="~/Content/MyStyle.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+<script src="~/Scripts/DataTables/jquery.dataTables.js" type="text/javascript"></script>
+<script src="~/Scripts/DataTables/dataTables.fixedHeader.js" type="text/javascript"></script>
+<script src="~/Scripts/DataTables/dataTables.fixedColumns.js" type="text/javascript"></script>
+
+<style>
+    .clickable {
+        cursor: pointer;
+        background: #ffff99;
+    }
+
+    .clickablet {
+        cursor: pointer;
+        background: #f39595
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var oTable = $('#frezeheader').dataTable({
+            "sScrollX": "100",
+            "sScrollY": "750px",
+            "sScrollXInner": "100%",
+            "bLengthChange": false,
+            "bInfo": false,
+            "bAutoWidth": true,
+
+            "bProcessing": true,
+            "bServerSide": true,
+            "bSort": true,
+            "bFilter": true, //searching
+            "bPaginate": true,
+            "fnServerData": true,
+            "fnServerParams": true,
+            "ajax": {
+                "url": "User/Index",
+                "type": "GET",
+               // "dataSrc": "tableData"
+
+            }
+        });
+        $("div").scrollTop(@TempData["scPos"]);
+   });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $('tbody tr').hover(function () {
+            $(this).toggleClass('clickable');
+        }).on('click', function () {
+            //location.href = '/Details/' + $(this).find('td:first').text();
+            $(this).toggleClass('clickablet');
+        });
+    });
+</script>
+
+
+<div id="contetnt">
+    @using (Ajax.BeginForm("Index", new AjaxOptions { UpdateTargetId = "contetnt" }))
+    {
+        <fieldset class="panel">
+            <div class="panel-heading">
+                <div>
+                    <label>Введите данные для поиска:</label>
+                    @Html.TextBox("strName")
+                    <input type="submit" value="Search" />
+                </div>
+            </div>
+        </fieldset>
+    }
+
+
+    <p>
+        @Html.ActionLink("Create", "InsertUser")
+    </p>
+
+
+    @{
+        var grid = new WebGrid(source: Model, canPage: true, rowsPerPage: 3);
+        grid.Pager(WebGridPagerModes.All);
+        @grid.GetHtml(
+                                                           tableStyle: "webgrid-table",
+                                                             headerStyle: "webgrid-header",
+                                                             footerStyle: "webgrid-footer",
+                                                             alternatingRowStyle: "webgrid-alternating-row",
+                                                             rowStyle: "webgrid-row-style",
+                                                             htmlAttributes: new { id = "frezeheader" },
+                                            columns: grid.Columns(
+                                                               grid.Column(columnName: "Name", header: "Имя сотрудника"),
+                                                               grid.Column(columnName: "Position", header: "Должность"),
+                                                               grid.Column(columnName: "Age", header: "Возраст"),
+                                                               grid.Column(columnName: "StartDate", header: "Дата начала работы",
+                                                               format:
+                                                            @<text>
+                                                                @item.StartDate.ToString("dd.MM.yy")
+                                                            </text>
+                                                                      ),
+                                                                          grid.Column("",
+                                                                          header: "Действия",
+                                                                          format: @<text>
+                                                                            @Html.ActionLink("Edit | ", "Edit", new { id = item.Id, page = ViewBag.lst })
+                                                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                                                        </text>)
+                                                                                              ))
+    }
+</div>

@@ -1,0 +1,100 @@
+﻿@*@using AppMVCAutofac.WEB.Helpers;*@
+@model AppMVCAutofac.Core.Model.User
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.js"></script>
+<link rel="stylesheet" href="~/Content/jquery-ui.css">
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $('#StartDate').datepicker({
+            dateFormat: 'dd.mm.yy'
+        });
+     });
+</script>
+
+
+<script>
+    function checkFunction() {
+        var checkBox = document.getElementById("Employed");
+        var div = document.getElementById("DivShow");
+        if (checkBox.checked == true) {
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+        }
+    }
+</script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Добавить сотрудника</title>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Добавить сотрудника</h2>
+
+        @using (Html.BeginForm("InsertUser", "User", FormMethod.Post))
+        {
+             @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>Работник</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Position, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Position)
+                        @Html.ValidationMessageFor(model => model.Position, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Age)
+                        @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <p> <input type="text" id="StartDate" name="StartDate" required placeholder="dd.mm.YYYY" size="20" /> </p>
+                        </div>
+                    </div>
+                
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Добавить" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
